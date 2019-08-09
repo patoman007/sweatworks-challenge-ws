@@ -1,0 +1,7 @@
+.serverless
+.idea
+
+.env.prod
+
+node_modules
+dist

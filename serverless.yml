@@ -1,0 +1,33 @@
+service:
+  name: sweatworks-challenge-serverless
+  app: sweatworks-challenge-backend
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript-express
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: us-west-2
+  profile: sweatworks
+  environment:
+    APP_ENV: 'production'
+    AWS_REG: 'us-west-2'
+    AWS_KEY: '*****'
+    AWS_SECRET: '*****'
+
+functions:
+  app:
+    handler: src/serverless.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
