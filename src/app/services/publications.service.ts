@@ -16,11 +16,13 @@ type asyncResult = Promise<GenericResultInterface>;
 type retrieveResult = () => asyncResult;
 type createResult = (title: string,
                      body: string,
-                     authorId: string) => asyncResult;
+                     authorId: string,
+                     datetime: string) => asyncResult;
 type updateResult = (id: string,
                      title: string,
                      body: string,
-                     authorId: string) => asyncResult;
+                     authorId: string,
+                     datetime: string) => asyncResult;
 type deleteResult = (id: string) => asyncResult;
 
 const authorExists = async (authorId: string): Promise<boolean> => {
@@ -44,14 +46,14 @@ const retrievePublications: retrieveResult = async () => {
 
 const createPublication: createResult = async (title: string,
                                                body: string,
-                                               authorId: string) => {
+                                               authorId: string,
+                                               datetime: string) => {
   const authorIsValid = await authorExists(authorId);
   if (!authorIsValid) {
     return ResultManager.WithError(errorMessages.invalidAuthor(authorId));
   }
 
-  const now = new Date().toISOString();
-  const publication = PublicationManager.From(title, body, authorId, now);
+  const publication = PublicationManager.From(title, body, authorId, datetime);
 
   try {
     const createdPublication = await repository.create(publication);
@@ -64,7 +66,8 @@ const createPublication: createResult = async (title: string,
 const updatePublication: updateResult = async (id: string,
                                                title: string,
                                                body: string,
-                                               authorId: string) => {
+                                               authorId: string,
+                                               datetime: string) => {
   const publicationIsValid = await publicationExists(id);
   if (!publicationIsValid) {
     return ResultManager.WithError(errorMessages.invalidPublicationId(id));
@@ -75,13 +78,13 @@ const updatePublication: updateResult = async (id: string,
     return ResultManager.WithError(errorMessages.invalidAuthor(authorId));
   }
 
-  const now = new Date().toISOString();
+
   const updatedPublication = PublicationManager
-    .From(title, body, authorId, now, id);
+    .From(title, body, authorId, datetime, id);
 
   try {
-    const data = await repository.update(id, updatedPublication);
-    return ResultManager.WithData(data);
+    await repository.update(id, updatedPublication);
+    return ResultManager.WithData(updatedPublication);
   } catch (ex) {
     return ResultManager.WithError(ex);
   }
@@ -94,7 +97,8 @@ const deletePublication: deleteResult = async (id: string) => {
       return ResultManager.WithError(errorMessages.invalidPublicationId(id));
     }
 
-    const data = await repository.remove(id);
+    await repository.remove(id);
+    const data = { deletedPublicationId: id };
     return ResultManager.WithData(data);
   } catch (ex) {
     return ResultManager.WithError(ex);

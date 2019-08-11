@@ -30,8 +30,10 @@ const createPublication = async (req: Request,
     const title = req.body[PublicationBodyRequest.Title];
     const body = req.body[PublicationBodyRequest.Body];
     const authorId = req.body[PublicationBodyRequest.AuthorId];
+    const datetime = req.body[PublicationBodyRequest.Datetime];
 
-    const result = await service.createPublication(title, body, authorId);
+    const result = await service
+      .createPublication(title, body, authorId, datetime);
     const response = ResponseManager.FromResult(result);
     return res.status(HttpStatusCodes.OK).json(response);
   } catch (ex) {
@@ -48,8 +50,10 @@ const updatePublication = async (req: Request,
     const title = req.body[PublicationBodyRequest.Title];
     const body = req.body[PublicationBodyRequest.Body];
     const authorId = req.body[PublicationBodyRequest.AuthorId];
+    const datetime = req.body[PublicationBodyRequest.Datetime];
 
-    const result = await service.updatePublication(id, title, body, authorId);
+    const result = await service
+      .updatePublication(id, title, body, authorId, datetime);
     const response = ResponseManager.FromResult(result);
     return res.status(HttpStatusCodes.OK).json(response);
   } catch (ex) {

@@ -3,10 +3,12 @@ const publicationErrorMessages = {
   emptyTitle: 'Title param must be provided',
   emptyBody: 'Body param must be provided',
   emptyAuthor: 'Author param must be provided',
+  emptyDatetime: 'Creation datetime param must be provided',
   invalidId: 'Id param must be a string',
   invalidTitle: 'Title param must be a string',
   invalidBody: 'Body param must be a string',
   invalidAuthorId: 'Author id param must be a string',
+  invalidDatetime: 'Creation datetime param must be a string',
   invalidPublicationId: (pubId?: string): string => {
     return `Publication ${ pubId || '' } is not valid`;
   },

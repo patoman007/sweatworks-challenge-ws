@@ -20,13 +20,18 @@ const create = [
   check(PublicationBodyRequest.AuthorId).not().isEmpty()
     .withMessage(errorMessage.emptyAuthor),
   check(PublicationBodyRequest.AuthorId).isString()
-    .withMessage(errorMessage.invalidAuthorId)
+    .withMessage(errorMessage.invalidAuthorId),
+  check(PublicationBodyRequest.Datetime).not().isEmpty()
+    .withMessage(errorMessage.emptyDatetime),
+  check(PublicationBodyRequest.Datetime).isString()
+    .withMessage(errorMessage.invalidDatetime)
 ];
 
 const update = [
   check(PublicationBodyRequest.Id).not().isEmpty()
     .withMessage(errorMessage.emptyId),
   check(PublicationBodyRequest.Id).isString()
+    .withMessage(errorMessage.invalidId)
 ];
 
 const remove = [

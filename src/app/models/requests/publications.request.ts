@@ -2,5 +2,6 @@ export enum PublicationBodyRequest {
   Id = 'id',
   Title = 'title',
   Body = 'body',
-  AuthorId = 'authorId'
+  AuthorId = 'authorId',
+  Datetime = 'datetime'
 }
