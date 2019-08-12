@@ -11,6 +11,8 @@ import { GenericResultInterface } from '../models/results/generic-result';
 import {
   publicationErrorMessages as errorMessages
 } from '../constants/publications-error-messages';
+import {PublicationInterface} from "../models/publications/publication.interface";
+import {AuthorInterface} from "../models/authors/author.interface";
 
 type asyncResult = Promise<GenericResultInterface>;
 type retrieveResult = () => asyncResult;
@@ -37,7 +39,15 @@ const publicationExists = async (publicationId: string): Promise<boolean> => {
 
 const retrievePublications: retrieveResult = async () => {
   try {
+    const authors: AuthorInterface[] = await authorsRepository.query();
     const data = await repository.query();
+
+    data.forEach((publication: PublicationInterface) => {
+      const author = authors.find(_author => _author.id === publication.authorId);
+      if (!author) { return; }
+      publication.authorDisplayedName = `${ author.lastName }, ${ author.firstName} - ${ author.email}`;
+    });
+
     return ResultManager.WithData(data);
   } catch(ex) {
     return ResultManager.WithError(ex);
@@ -77,7 +87,6 @@ const updatePublication: updateResult = async (id: string,
   if (!authorIsValid) {
     return ResultManager.WithError(errorMessages.invalidAuthor(authorId));
   }
-
 
   const updatedPublication = PublicationManager
     .From(title, body, authorId, datetime, id);

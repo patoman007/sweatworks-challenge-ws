@@ -4,4 +4,5 @@ export interface PublicationInterface {
   body: string;
   authorId: string;
   datetime: string;
+  authorDisplayedName?: string;
 }

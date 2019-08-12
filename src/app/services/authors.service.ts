@@ -60,8 +60,8 @@ const updateAuthor: updateResult = async (id: string,
   const updatedAuthor = AuthorManager.From(firstName, lastName, email, dof, id);
 
   try {
-    const data = await repository.update(id, updatedAuthor);
-    return ResultManager.WithData(data);
+    await repository.update(id, updatedAuthor);
+    return ResultManager.WithData(updatedAuthor);
   } catch (ex) {
     return ResultManager.WithError(ex);
   }
@@ -74,7 +74,8 @@ const deleteAuthor: deleteResult = async (id: string) => {
       return ResultManager.WithError(errorMessages.invalidAuthorId(id));
     }
 
-    const data = await repository.remove(id);
+    await repository.remove(id);
+    const data = { deletedAuthorId: id };
     return ResultManager.WithData(data);
   } catch (ex) {
     return ResultManager.WithError(ex);
