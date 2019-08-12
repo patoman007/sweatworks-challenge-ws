@@ -24,6 +24,11 @@ const authorExists = async (authorId: string): Promise<boolean> => {
   return !ObjectUtils.IsEmpty(author);
 };
 
+const isAValidEmail = (email: string): boolean => {
+  const re = /\S+@\S+\.\S+/;
+  return re.test(email);
+};
+
 const retrieveAuthors: retrieveResult = async () => {
   try {
     const data = await repository.query();
@@ -37,6 +42,10 @@ const createAuthor: createResult = async (firstName: string,
                                           lastName: string,
                                           email: string,
                                           dof: string) => {
+  if (!isAValidEmail(email)) {
+    return ResultManager.WithError(errorMessages.invalidEmail(email));
+  }
+
   const author = AuthorManager.From(firstName, lastName, email, dof);
 
   try {
@@ -55,6 +64,10 @@ const updateAuthor: updateResult = async (id: string,
   const authorIsValid = await authorExists(id);
   if (!authorIsValid) {
     return ResultManager.WithError(errorMessages.invalidAuthorId(id));
+  }
+
+  if (!isAValidEmail(email)) {
+    return ResultManager.WithError(errorMessages.invalidEmail(email));
   }
 
   const updatedAuthor = AuthorManager.From(firstName, lastName, email, dof, id);

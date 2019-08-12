@@ -1,7 +1,12 @@
 import AWS from 'aws-sdk';
 import { ScanInput } from 'aws-sdk/clients/dynamodb';
 
-import { production, awsRegion, awsAccessKey, awsSecretAccessKey } from '../config/config';
+import {
+  production,
+  awsRegion,
+  awsAccessKey,
+  awsSecretAccessKey
+} from '../config/config';
 
 import * as authors from './authors.schema';
 import * as publications from './publications.schema';
@@ -15,7 +20,7 @@ class DynamoDbClient {
 
   private static GetAWSCfg(): awsConfig {
     return production
-      ? { region: 'us-west-2', accessKeyId: awsAccessKey, secretAccessKey: awsSecretAccessKey  }
+      ? { region: awsRegion, accessKeyId: awsAccessKey, secretAccessKey: awsSecretAccessKey  }
       : { region: awsRegion, endpoint: 'http://localhost:8000' };
   }
 

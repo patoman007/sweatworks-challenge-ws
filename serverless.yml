@@ -1,6 +1,8 @@
+org: patoman09
+app: sweatworks-challenge-app
 service:
-  name: sweatworks-challenge-serverless
-  app: sweatworks-challenge-backend
+  name: sweatworks-challenge
+  app: sweatworks-challenge
 
 plugins:
   - serverless-offline
@@ -10,7 +12,6 @@ plugins:
 provider:
   name: aws
   runtime: nodejs10.x
-  stage: dev
   region: us-west-2
   profile: sweatworks
   environment:
@@ -21,7 +22,7 @@ provider:
 
 functions:
   app:
-    handler: src/serverless.handler
+    handler: src/src/serverless.handler
     events:
       - http:
           path: /

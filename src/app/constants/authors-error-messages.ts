@@ -9,7 +9,10 @@ const authorErrorMessages = {
   },
   invalidFirstName: 'First name param must be a string',
   invalidLastName: 'Last name param must be a string',
-  invalidEmail: 'Please use a valid e-mail address',
+  invalidStringEmail: 'E-mail address param must be a string',
+  invalidEmail: (email: string): string =>  {
+    return `${ email } is not a valid email.`;
+  },
   invalidDof: 'Date of birth param must be a string'
 };
 

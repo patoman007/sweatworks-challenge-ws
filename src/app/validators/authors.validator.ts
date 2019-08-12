@@ -17,8 +17,8 @@ const create = [
     .withMessage(errorMessages.invalidLastName),
   check(AuthorsBodyRequest.Email).not().isEmpty()
     .withMessage(errorMessages.emptyEmail),
-  check(AuthorsBodyRequest.Email).isEmail()
-    .withMessage(errorMessages.invalidEmail),
+  check(AuthorsBodyRequest.Email).isString()
+    .withMessage(errorMessages.invalidStringEmail),
   check(AuthorsBodyRequest.Dof).not().isEmpty()
     .withMessage(errorMessages.emptyDof),
   check(AuthorsBodyRequest.Dof).isString()

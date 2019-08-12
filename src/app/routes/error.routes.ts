@@ -9,7 +9,7 @@ const body = `
 `;
 
 const handler = (req: Request, res: Response, next: NextFunction) => {
-  res.status(HttpStatusCodes.OK).send(body);
+  return res.status(HttpStatusCodes.OK).send(body);
 };
 
 router.get('**', handler);
